@@ -12,7 +12,7 @@ var pixelGrid = []
 var xOffset = 10
 var yOffset = 0
 
-var speed = 0.1
+var speed = 0.0005
 var speedFast = 0.01
 
 func _ready():
@@ -82,7 +82,7 @@ func floodFill(x, y, targetColor, replacementColor, grid):
 			if grid[n[0]] [n[1]-1] == targetColor:
 				grid[n[0]] [n[1]-1] = replacementColor
 				Q.append([n[0],n[1]-1])
-		yield(get_tree().create_timer(0.01), "timeout")
+		yield(get_tree().create_timer(speed), "timeout")
 		globals.fillSize+=1
 	globals.noClicks = false
 	return
