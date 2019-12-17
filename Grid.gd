@@ -40,7 +40,16 @@ func _ready():
 
 func _process(delta):
 	#print($FillTimer.time_left)
-	$Node2D/Label.text = str(globals.noClicks)
+	$Node2D/Label.text = str(globals.swaps)
+	for x in range(gridHeight):
+		for y in range(gridWidth):
+			if pixelGrid[x][y].isToggled == true:
+				globals.noClicks = true
+				globals.fillSize = 0
+				fillBoard(x,y, grid[x][y], pixelGrid[x][y].color, grid)
+				pixelGrid[x][y].isToggled = false
+			pixelGrid[x][y].color = grid[x][y]
+	
 	pass
 	
 	
@@ -59,30 +68,39 @@ func floodFill(x, y, targetColor, replacementColor, grid):
 		return
 	else:
 		grid[x][y] = replacementColor
+		globals.swaps += 1
 		
 	var Q = []
 	Q.append([x,y])
+	var four = 0
 	while Q.size()>0:
+		four += 1
 		var n = Q[0]
 		#print(Q[0])
 		Q.erase(n)
 		if not n[0]+1>=gridHeight:
 			if grid[n[0]+1] [n[1]] == targetColor:
 				grid[n[0]+1] [n[1]] = replacementColor
+				globals.swaps += 1
 				Q.append([n[0]+1,n[1]])
 		if not n[0]-1<0 :
 			if grid[n[0]-1] [n[1]] == targetColor:
 				grid[n[0]-1][n[1]] = replacementColor
+				globals.swaps += 1
 				Q.append([n[0]-1,n[1]])
 		if not  n[1]+1>=gridWidth :
 			if grid[n[0]] [n[1]+1] == targetColor:
 				grid[n[0]][n[1]+1] = replacementColor
+				globals.swaps += 1
 				Q.append([n[0],n[1]+1])
 		if not n[1]-1<0:
 			if grid[n[0]] [n[1]-1] == targetColor:
 				grid[n[0]] [n[1]-1] = replacementColor
+				globals.swaps += 1
 				Q.append([n[0],n[1]-1])
-		yield(get_tree().create_timer(speed), "timeout")
+		if four == 4:
+			four = 0
+			yield(get_tree().create_timer(speed), "timeout")
 		globals.fillSize+=1
 	globals.noClicks = false
 	return
@@ -95,13 +113,6 @@ func printGrid():
 
 
 func _on_Timer_timeout():
-	for x in range(gridHeight):
-		for y in range(gridWidth):
-			if pixelGrid[x][y].isToggled == true:
-				globals.noClicks = true
-				globals.fillSize = 0
-				fillBoard(x,y, grid[x][y], pixelGrid[x][y].color, grid)
-				pixelGrid[x][y].isToggled = false
-			pixelGrid[x][y].color = grid[x][y]
+
 	$Timer.start()
 			

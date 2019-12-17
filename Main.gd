@@ -1,12 +1,15 @@
 extends Node2D
 
-var grid = load("res://Grid.tscn").instance()
-
+#var grid = load("res://Grid.tscn").instance()
+onready var grid = get_node("Grid")
 func _ready():
-	add_child(grid)
+	#add_child(grid)
+	#twoStripe()
 	#triStripe()
-	redHorizontalStripe()
+	#redHorizontalStripe()
 	#randomColor()
+	$AnimationPlayer.play("fadein")
+	newPattern(globals.completeCount)
 	pass 
 
 func _process(delta):
@@ -16,8 +19,32 @@ func _process(delta):
 			complete = true
 			break
 	if complete:
-		randomColor()
+		globals.completeCount += 1
+		globals.noClicks = true
+		yield(get_tree().create_timer(1), "timeout")
+		globals.noClicks = false
+		newPattern(globals.completeCount)
+		complete = false
+		get_tree().change_scene("res://Main.tscn")
 	pass
+
+func newPattern(c):
+			
+	c = c%10
+	if c == 0:
+		twoStripe()
+	elif c == 1:
+		triStripe()
+	elif c == 2:
+		fourStripe()
+	elif c == 3:
+		yellowVerticalStripe()
+	elif c == 4:
+		redVerticalStripe()
+	elif c == 5:
+		redHorizontalStripe()
+	else:
+		randomColor(randi()%5)
 
 
 func checkIfSameColor(color):
@@ -28,6 +55,7 @@ func checkIfSameColor(color):
 	return true
 
 func randomColor(except=0):
+	randomize()
 	for x in range(grid.gridHeight):
 		for y in range(grid.gridWidth):
 			var color = 1+randi()%4
@@ -35,11 +63,23 @@ func randomColor(except=0):
 				color = 1+randi()%4
 			grid.grid[x][y] = color
 
-
-func triStripe():
+func twoStripe():
+	#randomColor(1)
 	for x in range(grid.gridHeight):
 		for y in range(grid.gridWidth):
-			grid.grid[x][y] = x%4
+			grid.grid[x][y] = 1+(x%2)
+
+func triStripe():
+	#randomColor(1)
+	for x in range(grid.gridHeight):
+		for y in range(grid.gridWidth):
+			grid.grid[x][y] = 1+x%3
+
+func fourStripe():
+	#randomColor(1)
+	for x in range(grid.gridHeight):
+		for y in range(grid.gridWidth):
+			grid.grid[x][y] = 1+x%4
 
 func redHorizontalStripe():
 	randomColor(1)

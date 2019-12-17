@@ -12,10 +12,10 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if not isToggled: 
-		$pixel.modulate = Color(0.94,0.94,0.94)
-	elif isToggled:
-		$pixel.modulate = Color(1,1,1)
+	#if not isToggled: 
+	#	$pixel.modulate = Color(0.94,0.94,0.94)
+	#elif isToggled:
+	#	$pixel.modulate = Color(1,1,1)
 	
 	if ((not globals.noClicks) and isInside and Input.is_action_just_pressed("leftMouseClick") 
 		and Input.is_action_pressed("red")):
@@ -53,7 +53,15 @@ func _process(delta):
 		elif isToggled:
 			#print("clicked2")
 			isToggled = false	
-			
+	if ((not globals.noClicks) and isInside and Input.is_action_just_pressed("leftMouseClick")
+		and Input.is_action_pressed("clear")):
+		color = 0
+		if not isToggled: 
+			#print("clicked")
+			isToggled = true
+		elif isToggled:
+			#print("clicked2")
+			isToggled = false	
 			
 			
 			

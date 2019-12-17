@@ -1,16 +1,8 @@
-extends Node
+extends Node2D
 
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-
-var noClicks = false
-
-var fillSize = 100
-
-var swaps = 0
-
-var completeCount = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -20,3 +12,6 @@ func _ready():
 #func _process(delta):
 #	pass
 
+
+func _on_Button_pressed():
+	get_tree().change_scene("res://Main.tscn")
