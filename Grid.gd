@@ -69,6 +69,7 @@ func floodFill(x, y, targetColor, replacementColor, grid):
 	else:
 		grid[x][y] = replacementColor
 		globals.swaps += 1
+		pixelGrid[x][y].get_node("Sound").play()
 		
 	var Q = []
 	Q.append([x,y])
@@ -98,9 +99,11 @@ func floodFill(x, y, targetColor, replacementColor, grid):
 				grid[n[0]] [n[1]-1] = replacementColor
 				globals.swaps += 1
 				Q.append([n[0],n[1]-1])
+				
 		if four == 4:
 			four = 0
 			yield(get_tree().create_timer(speed), "timeout")
+			pixelGrid[n[0]][n[1]].get_node("Sound").play()
 		globals.fillSize+=1
 	globals.noClicks = false
 	return

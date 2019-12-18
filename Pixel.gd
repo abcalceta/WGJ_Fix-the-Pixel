@@ -8,6 +8,7 @@ var isToggled = false
 var color = 1
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$Sound.pitch_scale = rand_range(0.5, 1.5)
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

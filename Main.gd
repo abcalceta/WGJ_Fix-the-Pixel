@@ -29,7 +29,7 @@ func _process(delta):
 	pass
 
 func newPattern(c):
-			
+	randomize()
 	c = c%10
 	if c == 0:
 		twoStripe()
@@ -65,21 +65,22 @@ func randomColor(except=0):
 
 func twoStripe():
 	#randomColor(1)
+	var which = randi()%3+1
 	for x in range(grid.gridHeight):
 		for y in range(grid.gridWidth):
-			grid.grid[x][y] = 1+(x%2)
+			grid.grid[x][y] = (which)+(x%2)
 
 func triStripe():
 	#randomColor(1)
 	for x in range(grid.gridHeight):
 		for y in range(grid.gridWidth):
-			grid.grid[x][y] = 1+x%3
+			grid.grid[x][y] = 1+(x%3)
 
 func fourStripe():
 	#randomColor(1)
 	for x in range(grid.gridHeight):
 		for y in range(grid.gridWidth):
-			grid.grid[x][y] = 1+x%4
+			grid.grid[x][y] = 1+(x%4)
 
 func redHorizontalStripe():
 	randomColor(1)
@@ -89,21 +90,21 @@ func redHorizontalStripe():
 				grid.grid[x][y] = 1
 				
 func yellowHorizontalStripe():
-	randomColor()
+	randomColor(2)
 	for x in range(grid.gridHeight):
 		for y in range(grid.gridWidth):
 			if x%2==0:
 				grid.grid[x][y] = 2
 				
 func redVerticalStripe():
-	randomColor()
+	randomColor(1)
 	for x in range(grid.gridHeight):
 		for y in range(grid.gridWidth):
 			if x%2==0:
 				grid.grid[x][y] = 1
 				
 func yellowVerticalStripe():
-	randomColor()
+	randomColor(2)
 	for x in range(grid.gridHeight):
 		for y in range(grid.gridWidth):
 			if y%2==0:
